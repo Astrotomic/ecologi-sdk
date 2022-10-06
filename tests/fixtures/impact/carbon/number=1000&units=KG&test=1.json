@@ -1,0 +1,19 @@
+{
+    "number": 1000,
+    "units": "KG",
+    "numberInTonnes": 1,
+    "amount": 11.3,
+    "currency": "EUR",
+    "projectDetails": [
+        {
+            "name": "Protecting the Tambopata-Bahuaja Biodiversity Reserve in Peru",
+            "splitPercentage": 30,
+            "splitAmountTonnes": 0.3
+        },
+        {
+            "name": "Wind power project in Thailand",
+            "splitPercentage": 70,
+            "splitAmountTonnes": 0.7
+        }
+    ]
+}

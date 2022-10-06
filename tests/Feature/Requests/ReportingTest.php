@@ -19,9 +19,9 @@ it('responds with total tonnes of carbon offset', function (string $username): v
 })->group('reporting', 'getCarbonOffset')->with('usernames');
 
 it('responds with total impact', function (string $username): void {
-    $total = $this->ecologi->reporting()->getImpact($username);
+    $data = $this->ecologi->reporting()->getImpact($username);
 
-    expect($total)
+    expect($data)
         ->toBeInstanceOf(Impact::class)
         ->trees->toBeGreaterThanOrEqual(0)
         ->carbonOffset->toBeGreaterThanOrEqual(0);

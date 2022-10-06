@@ -2,6 +2,7 @@
 
 namespace Astrotomic\Ecologi;
 
+use Astrotomic\Ecologi\RequestCollections\Purchasing;
 use Astrotomic\Ecologi\RequestCollections\Reporting;
 use Astrotomic\Ecologi\Responses\EcologiResponse;
 use Sammyjo20\Saloon\Http\Auth\TokenAuthenticator;
@@ -42,5 +43,10 @@ class Ecologi extends SaloonConnector
     public function reporting(): Reporting
     {
         return new Reporting($this);
+    }
+
+    public function purchasing(bool $test = false): Purchasing
+    {
+        return new Purchasing($this, $test);
     }
 }

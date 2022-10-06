@@ -33,7 +33,7 @@ abstract class TestCase extends \Tests\TestCase
                     );
                 }
 
-                $body = $this->fixture(parse_url($request->getFullRequestUrl(), PHP_URL_PATH));
+                $body = $this->fixture(parse_url($request->getFullRequestUrl(), PHP_URL_PATH), $request->getData());
 
                 return MockResponse::make($body, 200, [
                     'Content-Type' => 'application/json',
@@ -51,7 +51,7 @@ abstract class TestCase extends \Tests\TestCase
             if ($response->successful()) {
                 $request = $response->getOriginalRequest();
 
-                $filepath = $this->fixturePath(parse_url($request->getFullRequestUrl(), PHP_URL_PATH));
+                $filepath = $this->fixturePath(parse_url($request->getFullRequestUrl(), PHP_URL_PATH), $request->getData());
 
                 @mkdir(dirname($filepath), 0777, true);
                 file_put_contents(
@@ -64,9 +64,9 @@ abstract class TestCase extends \Tests\TestCase
         parent::tearDown();
     }
 
-    public function fixture(string $path): array
+    public function fixture(string $path, array $data = []): array
     {
-        $fixturePath = $this->fixturePath($path);
+        $fixturePath = $this->fixturePath($path, $data);
 
         if (! file_exists($fixturePath)) {
             throw new InvalidArgumentException($fixturePath);
@@ -77,8 +77,8 @@ abstract class TestCase extends \Tests\TestCase
         return json_decode($json, true, flags: JSON_THROW_ON_ERROR);
     }
 
-    protected function fixturePath(string $path): string
+    protected function fixturePath(string $path, array $data = []): string
     {
-        return __DIR__.'/../fixtures/'.trim($path, '/').'.json';
+        return __DIR__.'/../fixtures/'.trim($path, '/').($data ? '/'.http_build_query($data) : '').'.json';
     }
 }
