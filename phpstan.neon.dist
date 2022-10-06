@@ -1,0 +1,10 @@
+parameters:
+    paths:
+        - src
+
+    # The level 9 is the highest level
+    level: 6
+
+    reportUnmatchedIgnoredErrors: false
+    checkMissingIterableValueType: false
+    checkGenericClassInNonGenericObjectType: false
