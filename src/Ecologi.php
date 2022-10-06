@@ -38,4 +38,9 @@ class Ecologi extends SaloonConnector
             'Content-Type' => 'application/json',
         ];
     }
+
+    public function reporting(): Reporting
+    {
+        return new Reporting($this);
+    }
 }
