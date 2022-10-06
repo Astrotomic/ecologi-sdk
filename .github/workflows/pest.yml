@@ -19,11 +19,6 @@ jobs:
       - uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php }}
-          coverage: xdebug
       - name: Install dependencies
         run: composer update --${{ matrix.dependency-version }} --prefer-dist --no-interaction --no-suggest
-      - run: vendor/bin/pest --coverage --coverage-html=.coverage
-      - uses: actions/upload-artifact@v2
-        with:
-          name: "Coverage - P${{ matrix.php }} - ${{ matrix.dependency-version }}"
-          path: ./.coverage
+      - run: vendor/bin/pest
