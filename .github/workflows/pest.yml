@@ -1,0 +1,29 @@
+name: pest
+
+on:
+  push:
+
+jobs:
+  pest:
+    name: P${{ matrix.php }} - ${{ matrix.dependency-version }}
+    timeout-minutes: 15
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        php: [8.1]
+        dependency-version: [prefer-lowest, prefer-stable]
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          coverage: xdebug
+      - name: Install dependencies
+        run: composer update --${{ matrix.dependency-version }} --prefer-dist --no-interaction --no-suggest
+      - run: vendor/bin/pest --coverage --coverage-html=.coverage
+      - uses: actions/upload-artifact@v2
+        with:
+          name: "Coverage - P${{ matrix.php }} - ${{ matrix.dependency-version }}"
+          path: ./.coverage

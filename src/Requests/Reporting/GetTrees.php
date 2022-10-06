@@ -19,8 +19,9 @@ class GetTrees extends SaloonRequest
 
     protected ?string $method = Saloon::GET;
 
-    public function __construct(public readonly string $username)
-    {
+    public function __construct(
+        public readonly string $username
+    ) {
     }
 
     public function defineEndpoint(): string
