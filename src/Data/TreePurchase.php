@@ -10,11 +10,11 @@ use Money\Parser\DecimalMoneyParser;
 class TreePurchase
 {
     /**
-     * @param int $trees
-     * @param float $amount
-     * @param non-empty-string $currency
-     * @param string $treeUrl
-     * @param string|null $name
+     * @param  int  $trees
+     * @param  float  $amount
+     * @param  non-empty-string  $currency
+     * @param  string  $treeUrl
+     * @param  string|null  $name
      */
     final public function __construct(
         public readonly int $trees,
