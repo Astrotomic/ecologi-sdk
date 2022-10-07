@@ -9,6 +9,13 @@ use Money\Parser\DecimalMoneyParser;
 
 class CarbonOffsetPurchase
 {
+    /**
+     * @param float $number
+     * @param float $numberInTonnes
+     * @param float $amount
+     * @param non-empty-string $currency
+     * @param array $projectDetails
+     */
     final public function __construct(
         public readonly float $number,
         public readonly float $numberInTonnes,
