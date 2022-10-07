@@ -6,6 +6,7 @@
 [![Larabelles](https://img.shields.io/badge/Larabelles-%F0%9F%A6%84-lightpink?style=for-the-badge)](https://larabelles.com)
 
 [![Total Downloads](https://img.shields.io/packagist/dt/astrotomic/ecologi-sdk.svg?label=Downloads&style=flat-square)](https://packagist.org/packages/astrotomic/ecologi-sdk)
+[![PHP Version](https://img.shields.io/packagist/dependency-v/astrotomic/ecologi-sdk/php?style=flat-square)](https://packagist.org/packages/astrotomic/ecologi-sdk)
 
 ## Installation
 
