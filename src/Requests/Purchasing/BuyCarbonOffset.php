@@ -3,25 +3,23 @@
 namespace Astrotomic\Ecologi\Requests\Purchasing;
 
 use Astrotomic\Ecologi\Data\CarbonOffsetPurchase;
-use Astrotomic\Ecologi\Ecologi;
 use Astrotomic\Ecologi\Enums\CarbonUnit;
-use Sammyjo20\Saloon\Constants\Saloon;
-use Sammyjo20\Saloon\Http\SaloonRequest;
-use Sammyjo20\Saloon\Http\SaloonResponse;
-use Sammyjo20\Saloon\Traits\Plugins\CastsToDto;
-use Sammyjo20\Saloon\Traits\Plugins\HasJsonBody;
+use Saloon\Contracts\Body\HasBody;
+use Saloon\Enums\Method;
+use Saloon\Http\Request;
+use Saloon\Http\Response;
+use Saloon\Traits\Body\HasJsonBody;
+use Saloon\Traits\Request\CreatesDtoFromResponse;
 
 /**
  * @link https://docs.ecologi.com/docs/public-api-docs/e07bbee7fa605-purchase-carbon-offsets
  */
-class BuyCarbonOffset extends SaloonRequest
+class BuyCarbonOffset extends Request implements HasBody
 {
-    use CastsToDto;
+    use CreatesDtoFromResponse;
     use HasJsonBody;
 
-    protected ?string $connector = Ecologi::class;
-
-    protected ?string $method = Saloon::POST;
+    protected Method $method = Method::POST;
 
     public function __construct(
         public readonly float $number,
@@ -31,7 +29,7 @@ class BuyCarbonOffset extends SaloonRequest
     ) {
     }
 
-    public function defineEndpoint(): string
+    public function resolveEndpoint(): string
     {
         return '/impact/carbon';
     }
@@ -43,7 +41,7 @@ class BuyCarbonOffset extends SaloonRequest
         ]);
     }
 
-    public function defaultData(): array
+    public function defaultBody(): array
     {
         return array_filter([
             'number' => $this->number,
@@ -52,7 +50,7 @@ class BuyCarbonOffset extends SaloonRequest
         ]);
     }
 
-    protected function castToDto(SaloonResponse $response): CarbonOffsetPurchase
+    public function createDtoFromResponse(Response $response): CarbonOffsetPurchase
     {
         return CarbonOffsetPurchase::fromArray($response->json());
     }

@@ -1,14 +1,14 @@
 <?php
 
-namespace Astrotomic\Ecologi\RequestCollections;
+namespace Astrotomic\Ecologi\Resources;
 
 use Astrotomic\Ecologi\Data\Impact;
 use Astrotomic\Ecologi\Requests\Reporting\GetCarbonOffset;
 use Astrotomic\Ecologi\Requests\Reporting\GetImpact;
 use Astrotomic\Ecologi\Requests\Reporting\GetTrees;
-use Sammyjo20\Saloon\Http\RequestCollection;
+use Saloon\Http\BaseResource;
 
-class Reporting extends RequestCollection
+class Reporting extends BaseResource
 {
     public function getTrees(string $username): int
     {

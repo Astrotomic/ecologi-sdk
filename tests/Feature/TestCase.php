@@ -6,9 +6,8 @@ use Astrotomic\Ecologi\Ecologi;
 use GuzzleHttp\Exception\ConnectException;
 use GuzzleHttp\Psr7\Request;
 use InvalidArgumentException;
-use Sammyjo20\Saloon\Http\MockResponse;
-use Sammyjo20\Saloon\Http\SaloonRequest;
-use Tests\MockClient;
+use Saloon\Http\Faking\MockResponse;
+use Saloon\Http\PendingRequest;
 use Throwable;
 
 abstract class TestCase extends \Tests\TestCase
@@ -25,15 +24,18 @@ abstract class TestCase extends \Tests\TestCase
 
         $this->ecologi = new Ecologi($this->token);
 
-        $mockClient = new MockClient([
-            function (SaloonRequest $request): MockResponse {
-                if (! str_starts_with($request->getFullRequestUrl(), 'https://public.ecologi.com/')) {
+        $mockClient = new \Saloon\Http\Faking\MockClient([
+            function (PendingRequest $request): MockResponse {
+                if (! str_starts_with($request->getUrl(), 'https://public.ecologi.com/')) {
                     return MockResponse::make()->throw(
                         fn (Request $guzzleRequest): Throwable => new ConnectException('Wrong base-url.', $guzzleRequest)
                     );
                 }
 
-                $body = $this->fixture(parse_url($request->getFullRequestUrl(), PHP_URL_PATH), $request->getData());
+                $body = $this->fixture(
+                    path: parse_url($request->getUrl(), PHP_URL_PATH),
+                    data: array_merge([], $request->body()?->all() ?? [], $request->query()->all())
+                );
 
                 return MockResponse::make($body, 200, [
                     'Content-Type' => 'application/json',
@@ -42,26 +44,6 @@ abstract class TestCase extends \Tests\TestCase
         ]);
 
         $this->ecologi->withMockClient($mockClient);
-    }
-
-    protected function tearDown(): void
-    {
-        /** @var \Sammyjo20\Saloon\Http\SaloonResponse $response */
-        foreach ($this->ecologi->getMockClient()->getRecordedResponses() as $response) {
-            if ($response->successful()) {
-                $request = $response->getOriginalRequest();
-
-                $filepath = $this->fixturePath(parse_url($request->getFullRequestUrl(), PHP_URL_PATH), $request->getData());
-
-                @mkdir(dirname($filepath), 0777, true);
-                file_put_contents(
-                    $filepath,
-                    json_encode($response->json(), JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES)
-                );
-            }
-        }
-
-        parent::tearDown();
     }
 
     public function fixture(string $path, array $data = []): array
