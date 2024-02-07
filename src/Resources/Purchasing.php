@@ -1,22 +1,23 @@
 <?php
 
-namespace Astrotomic\Ecologi\RequestCollections;
+namespace Astrotomic\Ecologi\Resources;
 
 use Astrotomic\Ecologi\Data\CarbonOffsetPurchase;
 use Astrotomic\Ecologi\Data\TreePurchase;
 use Astrotomic\Ecologi\Enums\CarbonUnit;
 use Astrotomic\Ecologi\Requests\Purchasing\BuyCarbonOffset;
 use Astrotomic\Ecologi\Requests\Purchasing\BuyTrees;
-use Sammyjo20\Saloon\Http\RequestCollection;
-use Sammyjo20\Saloon\Http\SaloonConnector;
+use Saloon\Http\BaseResource;
 
-class Purchasing extends RequestCollection
+class Purchasing extends BaseResource
 {
-    public function __construct(
-        SaloonConnector $connector,
-        protected readonly bool $test = false
-    ) {
-        parent::__construct($connector);
+    protected bool $test = false;
+
+    public function test(bool $test = true): self
+    {
+        $this->test = $test;
+
+        return $this;
     }
 
     public function buyTrees(int $number, ?string $name = null, ?string $idempotency = null): TreePurchase

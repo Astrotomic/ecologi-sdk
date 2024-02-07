@@ -3,33 +3,31 @@
 namespace Astrotomic\Ecologi\Requests\Reporting;
 
 use Astrotomic\Ecologi\Ecologi;
-use Sammyjo20\Saloon\Constants\Saloon;
-use Sammyjo20\Saloon\Http\SaloonRequest;
-use Sammyjo20\Saloon\Http\SaloonResponse;
-use Sammyjo20\Saloon\Traits\Plugins\CastsToDto;
+use Saloon\Enums\Method;
+use Saloon\Http\Request;
+use Saloon\Http\Response;
+use Saloon\Traits\Request\CreatesDtoFromResponse;
 
 /**
  * @link https://docs.ecologi.com/docs/public-api-docs/6046ba6f68449-get-total-tonnes-of-co-2e-offset
  */
-class GetCarbonOffset extends SaloonRequest
+class GetCarbonOffset extends Request
 {
-    use CastsToDto;
+    use CreatesDtoFromResponse;
 
-    protected ?string $connector = Ecologi::class;
-
-    protected ?string $method = Saloon::GET;
+    protected Method $method = Method::GET;
 
     public function __construct(
         public readonly string $username
     ) {
     }
 
-    public function defineEndpoint(): string
+    public function resolveEndpoint(): string
     {
         return "/users/{$this->username}/carbon-offset";
     }
 
-    protected function castToDto(SaloonResponse $response): float
+    public function createDtoFromResponse(Response $response): float
     {
         return (float) $response->json('total');
     }

@@ -2,33 +2,30 @@
 
 namespace Astrotomic\Ecologi;
 
-use Astrotomic\Ecologi\RequestCollections\Purchasing;
-use Astrotomic\Ecologi\RequestCollections\Reporting;
-use Astrotomic\Ecologi\Responses\EcologiResponse;
-use Sammyjo20\Saloon\Http\Auth\TokenAuthenticator;
-use Sammyjo20\Saloon\Http\SaloonConnector;
-use Sammyjo20\Saloon\Interfaces\AuthenticatorInterface;
-use Sammyjo20\Saloon\Traits\Plugins\AcceptsJson;
-use Sammyjo20\Saloon\Traits\Plugins\AlwaysThrowsOnErrors;
+use Astrotomic\Ecologi\Resources\Purchasing;
+use Astrotomic\Ecologi\Resources\Reporting;
+use Saloon\Contracts\Authenticator;
+use Saloon\Http\Auth\TokenAuthenticator;
+use Saloon\Http\Connector;
+use Saloon\Traits\Plugins\AcceptsJson;
+use Saloon\Traits\Plugins\AlwaysThrowOnErrors;
 
-class Ecologi extends SaloonConnector
+class Ecologi extends Connector
 {
     use AcceptsJson;
-    use AlwaysThrowsOnErrors;
-
-    protected ?string $response = EcologiResponse::class;
+    use AlwaysThrowOnErrors;
 
     public function __construct(
         protected string $token
     ) {
     }
 
-    public function defineBaseUrl(): string
+    public function resolveBaseUrl(): string
     {
         return 'https://public.ecologi.com';
     }
 
-    public function defaultAuth(): ?AuthenticatorInterface
+    public function defaultAuth(): ?Authenticator
     {
         return new TokenAuthenticator($this->token);
     }
@@ -47,6 +44,6 @@ class Ecologi extends SaloonConnector
 
     public function purchasing(bool $test = false): Purchasing
     {
-        return new Purchasing($this, $test);
+        return (new Purchasing($this))->test($test);
     }
 }
