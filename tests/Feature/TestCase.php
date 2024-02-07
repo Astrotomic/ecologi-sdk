@@ -6,6 +6,7 @@ use Astrotomic\Ecologi\Ecologi;
 use GuzzleHttp\Exception\ConnectException;
 use GuzzleHttp\Psr7\Request;
 use InvalidArgumentException;
+use Saloon\Http\Faking\MockClient;
 use Saloon\Http\Faking\MockResponse;
 use Saloon\Http\PendingRequest;
 use Throwable;
@@ -24,7 +25,7 @@ abstract class TestCase extends \Tests\TestCase
 
         $this->ecologi = new Ecologi($this->token);
 
-        $mockClient = new \Saloon\Http\Faking\MockClient([
+        $mockClient = new MockClient([
             function (PendingRequest $request): MockResponse {
                 if (! str_starts_with($request->getUrl(), 'https://public.ecologi.com/')) {
                     return MockResponse::make()->throw(
