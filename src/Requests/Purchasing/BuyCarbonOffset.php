@@ -26,8 +26,7 @@ class BuyCarbonOffset extends Request implements HasBody
         public readonly CarbonUnit $units,
         public readonly bool $test = false,
         public readonly ?string $idempotency = null
-    ) {
-    }
+    ) {}
 
     public function resolveEndpoint(): string
     {

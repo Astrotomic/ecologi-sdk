@@ -18,8 +18,7 @@ class TreePurchase
         public readonly string $currency,
         public readonly string $treeUrl,
         public readonly ?string $name,
-    ) {
-    }
+    ) {}
 
     public static function fromArray(int $trees, array $data): self
     {
@@ -39,7 +38,7 @@ class TreePurchase
 
     public function costs(): Money
     {
-        return (new DecimalMoneyParser(new ISOCurrencies()))->parse(
+        return (new DecimalMoneyParser(new ISOCurrencies))->parse(
             (string) $this->amount,
             $this->currency()
         );

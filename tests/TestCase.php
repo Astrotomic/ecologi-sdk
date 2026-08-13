@@ -2,6 +2,4 @@
 
 namespace Tests;
 
-abstract class TestCase extends \PHPUnit\Framework\TestCase
-{
-}
+abstract class TestCase extends \PHPUnit\Framework\TestCase {}

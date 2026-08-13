@@ -20,8 +20,7 @@ class GetImpact extends Request
 
     public function __construct(
         public readonly string $username
-    ) {
-    }
+    ) {}
 
     public function resolveEndpoint(): string
     {

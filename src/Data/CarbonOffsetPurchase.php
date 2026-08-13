@@ -18,8 +18,7 @@ class CarbonOffsetPurchase
         public readonly float $amount,
         public readonly string $currency,
         public readonly array $projectDetails,
-    ) {
-    }
+    ) {}
 
     public static function fromArray(array $data): self
     {
@@ -39,7 +38,7 @@ class CarbonOffsetPurchase
 
     public function costs(): Money
     {
-        return (new DecimalMoneyParser(new ISOCurrencies()))->parse(
+        return (new DecimalMoneyParser(new ISOCurrencies))->parse(
             (string) $this->amount,
             $this->currency()
         );

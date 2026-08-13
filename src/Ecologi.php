@@ -17,8 +17,7 @@ class Ecologi extends Connector
 
     public function __construct(
         protected string $token
-    ) {
-    }
+    ) {}
 
     public function resolveBaseUrl(): string
     {

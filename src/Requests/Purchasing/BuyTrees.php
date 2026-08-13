@@ -26,8 +26,7 @@ class BuyTrees extends Request implements HasBody
         public readonly ?string $name = null,
         public readonly bool $test = false,
         public readonly ?string $idempotency = null
-    ) {
-    }
+    ) {}
 
     public function resolveEndpoint(): string
     {
